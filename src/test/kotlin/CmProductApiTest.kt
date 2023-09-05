@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class DcProductApiTest {
+class CmProductApiTest {
 
-    private var productApi: DcProductApi? = null
+    private var productApi: CmProductApi? = null
 
     @BeforeEach
     fun setUp() {
-        productApi = DcProductApi.Builder().accountId("6452")
+        productApi = CmProductApi.Builder().accountId("6452")
             .catalogName("test_akashr_en_d1")
             .baseUrl("https://api.connect.bloomreach.com")
             .authorizationKey("test_akashr-cb617486-c4e9-4de1-83a4-60a3d9f5fb22")

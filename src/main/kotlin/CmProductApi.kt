@@ -6,7 +6,7 @@ import model.product.CatalogManagementProductRequest
 /**
  * DcProductApi class contains methods to initiate a BrApiClient object and API call methods
  */
-class DcProductApi private constructor(
+class CmProductApi private constructor(
     brApiRequest: BrApiRequest) : BrApiClient(brApiRequest) {
 
     var brApiRequestData: BrApiRequest
@@ -15,14 +15,14 @@ class DcProductApi private constructor(
         this.brApiRequestData = brApiRequest
     }
 
-     class Builder : BrApiClient.Builder<DcProductApi>() {
+     class Builder : BrApiClient.Builder<CmProductApi>() {
         /**
          * Method to create object for DcProductApi
          *
          * @return  DcProductApi instance
          */
-        override fun build(): DcProductApi {
-            return DcProductApi(BrApiRequest(
+        override fun build(): CmProductApi {
+            return CmProductApi(BrApiRequest(
                 accountId = accountId,
                 catalogName = catalogName,
                 authorizationKey = authorizationKey,

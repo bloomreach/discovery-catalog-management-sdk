@@ -6,7 +6,7 @@ import model.content.CatalogManagementContentRequest
 /**
  * DcContentApi class contains methods to initiate a BrApiClient object and API call methods
  */
-class DcContentApi private constructor(
+class CmContentApi private constructor(
     brApiRequest: BrApiRequest
 ) : BrApiClient(brApiRequest) {
 
@@ -15,15 +15,15 @@ class DcContentApi private constructor(
         this.brApiRequestData = brApiRequest
     }
 
-    class Builder : BrApiClient.Builder<DcContentApi>() {
+    class Builder : BrApiClient.Builder<CmContentApi>() {
 
         /**
          * Method to create object for DcContentApi
          *
          * @return DcContentApi instance
          */
-        override fun build(): DcContentApi {
-            return DcContentApi(
+        override fun build(): CmContentApi {
+            return CmContentApi(
                 BrApiRequest(
                     accountId = accountId,
                     catalogName = catalogName,

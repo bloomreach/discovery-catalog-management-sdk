@@ -4,7 +4,7 @@
 
 ### Initializing the Product API object:
 ```
-DcProductApi productApi = new DcProductApi.Builder()
+CmProductApi productApi = new CmProductApi.Builder()
      		.accountId("<ACCOUNT_ID>")
                 .catalogName("<CATALOG_NAME>")
                 .authorizationKey("<AUTHORIZATION_KEY>")
@@ -20,7 +20,7 @@ DcProductApi productApi = new DcProductApi.Builder()
 | baseUrl  | Base URL for a custom staging or performance testing environment  |
 | connectionTimeOut  | Connection timeout in milliseconds  |
 | maxTotalConnections  | Max total connections  |
-| responseTimeout  | CConnection timeout for getting a response  |
+| responseTimeout  | Connection timeout for getting a response  |
 
 
 ### PUT
@@ -28,7 +28,7 @@ DcProductApi productApi = new DcProductApi.Builder()
 1. ** PUT request using a JSON String **
 
 ```
-DataConnectResponse response = productApi.ingestPut(“<JSON_STRING>”);
+CatalogManagementResponse response = productApi.ingestPut(“<JSON_STRING>”);
 
 if(response.getError() != null) {
 // error
@@ -71,15 +71,15 @@ value.setAttributes(attributes);
 value.addView("view-key",valueForView);
 ```
 ```
-// Create DataConnectProductRequestItem and set Create Value to the item
-DataConnectProductRequestItem item = new DataConnectProductRequestItem("add", "/products/ptr0921110", value);
+// Create CatalogManagementProductRequestItem and set Create Value to the item
+CatalogManagementProductRequestItem item = new CatalogManagementProductRequestItem("add", "/products/ptr0921110", value);
 ```
 
 ```
-// Create DataConnectProductRequest object and add DataConnectProductRequestItem
-DataConnectProductRequest request = new DataConnectProductRequest();
+// Create CatalogManagementProductRequest object and add CatalogManagementProductRequestItem
+CatalogManagementProductRequest request = new CatalogManagementProductRequest();
 request.add(item);
-DataConnectResponse response = productApi.ingestPut(request);
+CatalogManagementResponse response = productApi.ingestPut(request);
 
 if(response.getError() != null) {
 // error
@@ -95,7 +95,7 @@ For more information on the underlying API call and the associated parameters, p
 1. PATCH request using a JSON String
 
 ```
-DataConnectResponse response = productApi.ingestPatch(“<JSON_STRING>”);
+CatalogManagementResponse response = productApi.ingestPatch(“<JSON_STRING>”);
 
 if(response.getError() != null) {
 // error
@@ -106,7 +106,7 @@ if(response.getError() != null) {
 
 2. PATCH request using an Object
 ```
-DataConnectResponse response = productApi.ingestPut(request);
+CatalogManagementResponse response = productApi.ingestPut(request);
 
 if(response.getError() != null) {
 // error
@@ -121,7 +121,7 @@ For more information on the underlying API call and the associated parameters, p
 ### INDEX
 
 ```
-DataConnectResponse response = productApi.index(“<JOB_ID>”);
+CatalogManagementResponse response = productApi.index(“<JOB_ID>”);
 
 if(response.getError() != null) {
 // error
@@ -152,7 +152,7 @@ For more information on the underlying API call and the associated parameters, p
 
 ### Initializing the Content API object:
 ```
-DcContentApi contentApi = new DcContentApi.Builder()
+CmContentApi contentApi = new CmContentApi.Builder()
      		.accountId("<ACCOUNT_ID>")
            	.catalogName("<CATALOG_NAME>")
             	.authorizationKey("<AUTHORIZATION_KEY>")
@@ -169,7 +169,7 @@ DcContentApi contentApi = new DcContentApi.Builder()
 | baseUrl  | Base URL for a custom staging or performance testing environment  |
 | connectionTimeOut  | Connection timeout in milliseconds  |
 | maxTotalConnections  | Max total connections  |
-| responseTimeout  | CConnection timeout for getting a response  |
+| responseTimeout  | Connection timeout for getting a response  |
 
 
 ### PUT
@@ -177,7 +177,7 @@ DcContentApi contentApi = new DcContentApi.Builder()
 1. ** PUT request using a JSON String **
 
 ```
-DataConnectResponse response = contentApi.ingestPut(jsonBody);
+CatalogManagementResponse response = contentApi.ingestPut(jsonBody);
 
 if(response.getError() != null) {
 // error
@@ -209,9 +209,9 @@ value.setViews(views);
 ```
 
 ```
- //Create DataConnectProductRequestItem and set Create Value to the item
+ //Create CatalogManagementContentRequestItem and set Create Value to the item
 
-DataConnectProductRequestItem item = new DataConnectProductRequestItem();
+CatalogManagementContentRequestItem item = new CatalogManagementContentRequestItem();
 item.setOp("add");
 item.setPath("/products/ptr0921110");
 item.setValue(value);
@@ -219,12 +219,12 @@ item.setValue(value);
 ```
 
 ```
-// Create DataConnectContentRequest object and add DataConnectContentRequest
+// Create CatalogManagementContentRequest object and add 
 
-DataConnectContentRequest request = new DataConnectContentRequest();
+CatalogManagementContentRequest request = new CatalogManagementContentRequest();
         request.add(item);
 
-DataConnectResponse response = contentApi.ingestPut(request);
+CatalogManagementResponse response = contentApi.ingestPut(request);
 
 if(response.getError() != null) {
 // error
@@ -241,7 +241,7 @@ For more information on the underlying API call and the associated parameters, p
 1. PATCH request using a JSON String
 
 ```
-DataConnectResponse response = contentApi.ingestPatch(“<JSON_STRING>”);
+CatalogManagementResponse response = contentApi.ingestPatch(“<JSON_STRING>”);
 
 if(response.getError() != null) {
 // error
@@ -253,7 +253,7 @@ if(response.getError() != null) {
 
 2. PATCH request using an Object
 ```
-DataConnectResponse response = contentApi.ingestPut(request);
+CatalogManagementResponse response = contentApi.ingestPut(request);
 
 if(response.getError() != null) {
 // error
@@ -268,7 +268,7 @@ For more information on the underlying API call and the associated parameters, p
 ### INDEX
 
 ```
-DataConnectResponse response = contentApi.index(“<JOB_ID>”);
+CatalogManagementResponse response = contentApi.index(“<JOB_ID>”);
 
 if(response.getError() != null) {
 // error

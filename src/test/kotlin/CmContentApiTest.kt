@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
 
-class DcContentApiTest {
+class CmContentApiTest {
 
-    private var contentApi: DcContentApi? = null
+    private var contentApi: CmContentApi? = null
 
     @BeforeEach
     fun setUp() {
-        contentApi = DcContentApi.Builder().accountId("6617")
+        contentApi = CmContentApi.Builder().accountId("6617")
             .baseUrl("https://api.connect.bloomreach.com")
             .authorizationKey("prosvcs_sandbox-staging-db720fa8-8110-4ab1-8abd-7ef334e76f2d")
             .catalogName("content_en")
