@@ -90,6 +90,25 @@ if(response.getError() != null) {
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
 
 
+3. PUT request for an Array of File Paths
+
+```
+
+ArrayList<String> request = new ArrayList<>();
+request.add("<catalog name>/<catalog1.jsonl>");
+request.add("<catalog name>/<catalog2.jsonl>");
+
+CatalogManagementResponse response = productApi.ingestPut(request);
+
+if(response.getError() != null) {
+// error
+} else {
+//  success
+ }
+```
+For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
+
+
 ### PATCH
 
 1. PATCH request using a JSON String
@@ -115,6 +134,24 @@ if(response.getError() != null) {
 }
 
 ```
+For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
+
+3. PATCH request for an Array of File Paths
+
+```
+ArrayList<String> request = new ArrayList<>();
+request.add("<catalog name>/<catalog1.jsonl>");
+request.add("<catalog name>/<catalog2.jsonl>");
+
+CatalogManagementResponse response = productApi.ingestPatch(request);
+
+if(response.getError() != null) {
+// error
+} else {
+//  success
+ }
+```
+
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
 
 
@@ -235,6 +272,26 @@ if(response.getError() != null) {
 ```
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-content).
 
+3. PUT request for an Array of File Paths
+
+```
+
+ArrayList<String> request = new ArrayList<>();
+request.add("<catalog name>/<catalog1.jsonl>");
+request.add("<catalog name>/<catalog2.jsonl>");
+
+CatalogManagementResponse response = contentApi.ingestPut(request);
+
+if(response.getError() != null) {
+// error
+} else {
+//  success
+ }
+```
+For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-content).
+
+
+
 
 ### PATCH
 
@@ -263,6 +320,22 @@ if(response.getError() != null) {
 ```
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-content).
 
+3. PATCH request for an Array of File Paths
+
+```
+ArrayList<String> request = new ArrayList<>();
+request.add("<catalog name>/<catalog1.jsonl>");
+request.add("<catalog name>/<catalog2.jsonl>");
+
+CatalogManagementResponse response = contentApi.ingestPatch(request);
+
+if(response.getError() != null) {
+// error
+} else {
+//  success
+ }
+```
+For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-content).
 
 
 ### INDEX

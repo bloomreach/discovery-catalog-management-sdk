@@ -67,7 +67,7 @@ class CmProductApi private constructor(
     }
 
     /**
-     * Method to call Http Ingest PUT Request for Product
+     * Method to call Http Ingest PATCH Request for Product
      * @param pathToFiles Arraylist to file paths
      *
      * @return  CatalogManagementResponse response object

@@ -151,8 +151,8 @@ class CmProductApiTest {
                 "]"
 
         val arr = ArrayList<String>()
-        arr.add("catalog name}/{catalog1.jsonl")
-        arr.add("catalog name}/{catalog2.jsonl")
+        arr.add("catalog name}/catalog1.jsonl")
+        arr.add("catalog name}/catalog2.jsonl")
 
         val response = productApi?.ingestPut(arr)
 

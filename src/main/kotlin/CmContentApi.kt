@@ -69,7 +69,7 @@ class CmContentApi private constructor(
     }
 
     /**
-     * Method to call Http Ingest PUT Request for Content
+     * Method to call Http Ingest PATCH Request for Content
      * @param pathToFiles Arraylist to file paths
      *
      * @return  CatalogManagementResponse response object
