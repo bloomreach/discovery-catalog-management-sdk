@@ -34,6 +34,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
  }
 ```
 
@@ -85,6 +86,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
  }
 ```
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
@@ -104,6 +106,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
  }
 ```
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).
@@ -120,6 +123,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
  }
 ```
 
@@ -131,6 +135,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
 }
 
 ```
@@ -149,6 +154,7 @@ if(response.getError() != null) {
 // error
 } else {
 //  success
+String jobId = response.getJobId();
  }
 ```
 
@@ -158,7 +164,8 @@ For more information on the underlying API call and the associated parameters, p
 ### INDEX
 
 ```
-CatalogManagementResponse response = productApi.index(“<JOB_ID>”);
+// Use the Job Id got from above methods
+CatalogManagementResponse response = productApi.index(“<JOB_ID>”); 
 
 if(response.getError() != null) {
 // error
@@ -172,6 +179,7 @@ For more information on the underlying API call and the associated parameters, p
 ### STATUS
 
 ```
+// Use the Job Id got from above methods
 StatusResponse response = productApi.getStatus(“<JOB_ID>”);
 
 if(response.getError() != null) {
@@ -341,6 +349,7 @@ For more information on the underlying API call and the associated parameters, p
 ### INDEX
 
 ```
+// Use the Job Id from above methods
 CatalogManagementResponse response = contentApi.index(“<JOB_ID>”);
 
 if(response.getError() != null) {
@@ -356,6 +365,7 @@ For more information on the underlying API call and the associated parameters, p
 ### STATUS
 
 ```
+// Use the Job Id got from above methods
 StatusResponse response = contentApi.getStatus(“<JOB_ID>”);
 
 if(response.getError() != null) {
