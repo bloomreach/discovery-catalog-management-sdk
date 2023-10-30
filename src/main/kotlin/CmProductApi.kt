@@ -2,12 +2,15 @@ import enums.CmApiType
 import enums.HttpMethod
 import model.CatalogManagementResponse
 import model.product.CatalogManagementProductRequest
+import org.slf4j.LoggerFactory
 
 /**
  * DcProductApi class contains methods to initiate a BrApiClient object and API call methods
  */
 class CmProductApi private constructor(
     brApiRequest: BrApiRequest) : BrApiClient(brApiRequest) {
+
+    private val logger = LoggerFactory.getLogger(CmContentApi::class.java.name)
 
     var brApiRequestData: BrApiRequest
 
@@ -83,6 +86,7 @@ class CmProductApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPatch(jsonBody: String): CatalogManagementResponse? {
+        logger.debug("ingestPatch() with string")
         return cmHttpClient.invokeIngest(brApiRequestData, jsonBody, HttpMethod.PATCH, CmApiType.PRODUCT)
     }
 

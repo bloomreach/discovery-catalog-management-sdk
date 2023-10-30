@@ -14,12 +14,14 @@ import org.apache.hc.client5.http.classic.methods.*
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient
 import org.apache.hc.core5.http.io.entity.EntityUtils
 import org.apache.hc.core5.http.io.entity.StringEntity
+import org.slf4j.LoggerFactory
 
 /**
  *  Class to perform API calls for Data Connect
  */
 internal class CmHttpClient(private val client: CloseableHttpClient) {
 
+    val logger = LoggerFactory.getLogger(CmHttpClient::class.java.name)
     /**
      * Method to call Http Ingest Request for Product
      * @param brApiRequest Object of all global parameters to be sent with the API
@@ -35,6 +37,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         httpMethodType: HttpMethod,
         apiType: CmApiType
     ): CatalogManagementResponse? {
+        logger.trace("invokeIngest() - httpMethodType: ${httpMethodType.name}, apiType: ${apiType.name}")
         return invokeIngest(brApiRequest, ObjectMapper().writeValueAsString(request), httpMethodType, apiType)
     }
 
@@ -53,7 +56,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         httpMethodType: HttpMethod,
         apiType: CmApiType
     ): CatalogManagementResponse? {
-        println("path  ${ObjectMapper().writeValueAsString(path)}")
+        logger.trace("invokeIngest() - path: ${path.joinToString(",")} httpMethodType: ${httpMethodType.name}, apiType: ${apiType.name}")
         return invokeIngest(brApiRequest, ObjectMapper().writeValueAsString(path), httpMethodType, apiType, true)
     }
 
@@ -72,6 +75,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         httpMethodType: HttpMethod,
         apiType: CmApiType
     ): CatalogManagementResponse? {
+        logger.trace("invokeIngest()- httpMethodType: ${httpMethodType.name}, apiType: ${apiType.name}")
         return invokeIngest(brApiRequest, ObjectMapper().writeValueAsString(request), httpMethodType, apiType)
     }
 
@@ -91,6 +95,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         apiType: CmApiType,
         isFilePaths: Boolean = false
     ): CatalogManagementResponse? {
+        logger.trace("invokeIngest() - httpMethodType: ${httpMethodType.name}, apiType: ${apiType.name}, isFilePaths: $isFilePaths , \n JSON : $jsonBody")
         val httpRequest: HttpUriRequestBase = getHttpObject(brApiRequest, httpMethodType, apiType)
         if(isFilePaths) {
             httpRequest.setHeader("Content-Type", "application/json")
@@ -98,32 +103,37 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
             httpRequest.setHeader("Content-Type", "application/json-patch+json")
         }
 
-
         httpRequest.setHeader("Authorization", brApiRequest.authorizationKey ?: "")
         val stringBody = StringEntity(jsonBody)
         httpRequest.entity = stringBody
 
+        logger.debug("execute() API")
         try {
             client.execute(httpRequest).use { response ->
                 // check if response code is 200
                 if (response.code in 200..299) {
+                    logger.info("API response code: ${response.code} ")
                     val entity = response.entity
                     if (entity != null) {
                         // get response as a String
                         val result = EntityUtils.toString(entity)
+                        logger.trace("Response: $result")
                         val responseMapper = ObjectMapper()
                         responseMapper.readValue(result, CatalogManagementResponse::class.java)
                         return responseMapper.readValue(result, CatalogManagementResponse::class.java)
                     } else {
+                        logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                         // return error with response code and reason
                         return CatalogManagementResponse(null, BrApiError(response.reasonPhrase, response.code))
                     }
                 } else {
+                    logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                     // return error with response code and reason
                     return CatalogManagementResponse(null, BrApiError(response.reasonPhrase, response.code))
                 }
             }
         } catch (e: Exception) {
+            logger.error("API call Exception: ${e.localizedMessage} ")
             // return error with exception message
             return CatalogManagementResponse(null, BrApiError(e.localizedMessage, 0))
         }
@@ -145,14 +155,15 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         httpMethodType: HttpMethod,
         apiType: CmApiType
     ): HttpUriRequestBase {
-
+        logger.trace("getHttpObject() - httpMethodType: ${httpMethodType.name}, apiType: ${apiType.name}")
         val url = if (CmApiType.PRODUCT == apiType) {
             "${getBaseUrl(brApiRequest)}/dataconnect/api/v1/accounts/${brApiRequest.accountId}/catalogs/${brApiRequest.catalogName}/products"
         } else {
             "${getBaseUrl(brApiRequest)}/dataconnect/api/v1/accounts/${brApiRequest.accountId}/catalogs/${brApiRequest.catalogName}/items"
         }
 
-        println("url: $url")
+        logger.trace("getHttpObject()- URL: $url")
+
         return if (HttpMethod.PUT == httpMethodType) {
             HttpPut(url)
         } else {
@@ -167,6 +178,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
      * @return Base Url String
      */
     private fun getBaseUrl(brApiRequest: BrApiRequest): String {
+        logger.trace("getBaseUrl()")
         return if (!brApiRequest.baseUrl.isNullOrEmpty()) {
             brApiRequest.baseUrl ?: ""
         } else {
@@ -188,6 +200,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         brApiRequest: BrApiRequest,
         apiType: CmApiType
     ): CatalogManagementResponse? {
+        logger.trace("invokeIndex() - apiType: ${apiType.name}")
         val httpRequest = HttpPost(getIndexUrl(brApiRequest, apiType))
 //        httpRequest.setHeader("Content-Type", "application/json-patch+json")
         httpRequest.setHeader("Authorization", brApiRequest.authorizationKey ?: "")
@@ -206,15 +219,18 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
                         return responseMapper.readValue(result, CatalogManagementResponse::class.java)
                     } else {
                         // return error with response code and reason
+                        logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                         return CatalogManagementResponse(null, BrApiError(response.reasonPhrase, response.code))
                     }
                 } else {
                     // return error with response code and reason
+                    logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                     return CatalogManagementResponse(null, BrApiError(response.reasonPhrase, response.code))
                 }
             }
         } catch (e: Exception) {
             // return error with exception message
+            logger.error("API call Exception: ${e.localizedMessage} ")
             return CatalogManagementResponse(null, BrApiError(e.localizedMessage, 0))
 
         }
@@ -231,8 +247,8 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
         brApiRequest: BrApiRequest,
         jobId: String
     ): StatusResponse? {
+        logger.trace("getStatus() - jobId: $jobId")
         val httpRequest = HttpGet(getStatusUrl(brApiRequest, jobId))
-//        httpRequest.setHeader("Content-Type", "application/json-patch+json")
         httpRequest.setHeader("Authorization", brApiRequest.authorizationKey ?: "")
 
         try {
@@ -243,21 +259,24 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
                     if (entity != null) {
                         // get response as a String
                         val result = EntityUtils.toString(entity)
-                        println(result)
+                        logger.trace("Response: $result")
 
                         val responseMapper = ObjectMapper()
                         return responseMapper.readValue(result, StatusResponse::class.java)
                     } else {
                         // return error with response code and reason
+                        logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                         return StatusResponse(error = BrApiError(response.reasonPhrase, response.code))
                     }
                 } else {
                     // return error with response code and reason
+                    logger.error("Error code: ${response.code}, Error Message: ${response.reasonPhrase}")
                     return StatusResponse(error = BrApiError(response.reasonPhrase, response.code))
                 }
             }
         } catch (e: Exception) {
             // return error with exception message
+            logger.error("API call Exception: ${e.localizedMessage} ")
             return StatusResponse(error = BrApiError(e.localizedMessage, 0))
         }
     }
@@ -270,6 +289,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
      * @return  String formatted URL
      */
     private fun getIndexUrl(brApiRequest: BrApiRequest, apiType: CmApiType): String {
+        logger.trace("getIndexUrl()")
         return "${getBaseUrl(brApiRequest)}/dataconnect/api/v1/accounts/${brApiRequest.accountId}/catalogs/${brApiRequest.catalogName}/indexes"
     }
 
@@ -281,6 +301,7 @@ internal class CmHttpClient(private val client: CloseableHttpClient) {
      * @return  String formatted URL
      */
     private fun getStatusUrl(brApiRequest: BrApiRequest, jobId: String): String {
+        logger.trace("getStatusUrl(): jobId: $jobId")
         return "${getBaseUrl(brApiRequest)}/dataconnect/api/v1/jobs/$jobId"
     }
 }

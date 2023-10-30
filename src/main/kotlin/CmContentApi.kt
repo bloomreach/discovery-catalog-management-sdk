@@ -2,6 +2,8 @@ import enums.CmApiType
 import enums.HttpMethod
 import model.CatalogManagementResponse
 import model.content.CatalogManagementContentRequest
+import network.CmHttpClient
+import org.slf4j.LoggerFactory
 
 /**
  * DcContentApi class contains methods to initiate a BrApiClient object and API call methods
@@ -9,6 +11,8 @@ import model.content.CatalogManagementContentRequest
 class CmContentApi private constructor(
     brApiRequest: BrApiRequest
 ) : BrApiClient(brApiRequest) {
+
+    private val logger = LoggerFactory.getLogger(CmContentApi::class.java.name)
 
     var brApiRequestData: BrApiRequest
     init {
