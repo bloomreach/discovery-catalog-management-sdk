@@ -5,12 +5,15 @@ import org.apache.hc.client5.http.config.RequestConfig
 import org.apache.hc.client5.http.impl.classic.HttpClients
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager
 import org.apache.hc.core5.util.Timeout
+import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 
 /**
  * Abstract Class for building different type of API objects with some common parameters.
  */
 abstract class BrApiClient(private val brApiRequest: BrApiRequest) {
+
+    private val logger = LoggerFactory.getLogger(BrApiClient::class.java.name)
 
     internal var cmHttpClient: CmHttpClient
     init {
@@ -71,6 +74,7 @@ abstract class BrApiClient(private val brApiRequest: BrApiRequest) {
      * @return  StatusResponse response object
      */
     public fun getStatus(jobId: String): StatusResponse? {
+        logger.debug("getStatus() - jobId: $jobId")
         return cmHttpClient.getStatus(brApiRequest, jobId)
     }
 }

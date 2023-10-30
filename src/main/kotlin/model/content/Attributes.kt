@@ -11,7 +11,6 @@ data class Attributes(
     @get:JsonAnyGetter
     var fields: HashMap<String, Any?> = hashMapOf()
 ) {
-
     fun addField(key: String, value: Any?) {
         if(key.isNotEmpty()) {
             fields[key] = value
