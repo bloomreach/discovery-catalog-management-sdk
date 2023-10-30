@@ -94,6 +94,7 @@ For more information on the underlying API call and the associated parameters, p
 
 3. PUT request for an Array of File Paths
 
+   (Refer SFTP Sample [here](SFTP_SAMPLE.md).)
 ```
 
 ArrayList<String> request = new ArrayList<>();

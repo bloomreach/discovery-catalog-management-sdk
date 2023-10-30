@@ -1,45 +1,41 @@
-# Catalog Management SDK Integration
 
+### SFTP Upload Reference
 [GO BACK](README.md)
-## SFTP Upload Reference
 
-### To create json for product or content Library can be used.
+The Bloomreach Catalog Management SDK does not provide native SFTP support. The following section provides sample SFTP code to send product data using the [JSch Library](http://www.jcraft.com/jsch/).
 
-For example: Create an Product Request Object
+1. Create an Product data
 
 ```
-//Create Attribute object
+//Create an Attribute object
         Attributes attributes = new Attributes();
         attributes.setTitle("Title");
         attributes.setUrl("example/url/path");
 
-//Create Value Object
+//Create a Value object
         Value value = new Value();
         value.setAttributes(attributes);
-        value.setViews(views);
 
 //Create DataConnectProductRequestItem and set Create Value to the item
-        DataConnectProductRequestItem item = new DataConnectProductRequestItem();
-        item.setOp("add");
-        item.setPath("/products/ptr0921110");
-        item.setValue(value);
+        DataConnectProductRequestItem item = new DataConnectProductRequestItem("add", "/products/ptr0921110", value);
 ```
 
-### Convert the object to JSON string
+2. Convert the object to a JSON string
 
 ```
         String json = item.toJson();
-//Write the json to jsonl file.
+```
+
+3. Write the JSON representation to a file.
+```
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("fileName.jsonl"));
             writer.write(json);
             writer.close();
         } catch (Exception e) {
             // handle exception 
-        }
+        } 
 ```
-Note: Any of the File creation Java libraries can be used here.
-
 
 ### Upload the file to SFTP server
 
@@ -47,24 +43,17 @@ Note: Here [JSch Library](http://www.jcraft.com/jsch/) has been used to demonstr
 ```
         try {
             jSch.addIdentity(<privateKeyPath>, "<passphrase>");
-
             session = jSch.getSession(“<SFTPUSER>”, “<SFTPHOST>”, “<SFTPPORT>”);
-       
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-            session.setConfig(config);
             session.connect();
             channel = session.openChannel("sftp");
             channel.connect();
-
             channelSftp = (ChannelSftp) channel;
             channelSftp.cd(<SFTPWORKINGDIR>);
-            //putting the file
             channelSftp.put("<src/fileName.jsonl>", "fileName.jsonl");
         } catch (JSchException e) {
-            //handle exception
+            // handle exception
         } catch (SftpException e) {
-            //handle exception
+            // handle exception
         } finally {
             if (channelSftp != null) {
                 channelSftp.disconnect();
@@ -75,20 +64,19 @@ Note: Here [JSch Library](http://www.jcraft.com/jsch/) has been used to demonstr
         }
 ```
 
-### Ingest PUT the feed using following API
-
+5. Ingest the feed
 ```
-ArrayList<String> request = new ArrayList<>();
-request.add("<catalog name>/<catalog1.jsonl>");
-request.add("<catalog name>/<catalog2.jsonl>");
-
-CatalogManagementResponse response = productApi.ingestPut(request);
-
-if(response.getError() != null) {
-// error
-} else {
-//  success
- }
+        List<String> request = new ArrayList<>();
+        request.add("<catalog name>/<catalog1.jsonl>");
+        request.add("<catalog name>/<catalog2.jsonl>");
+        
+        CatalogManagementResponse response = productApi.ingestPut(request);
+        
+        if(response.getError() != null) {
+        // error
+        } else {
+        // success
+        }
 ```
 
 For more information on the underlying API call and the associated parameters, please refer to the related [Catalog Management API page](https://documentation.bloomreach.com/discovery/reference/send-your-data-product).

@@ -15,7 +15,6 @@ data class Value(
         attributes!!.addField(key, value)
     }
 
-
     // Views
     fun addView(key: String, value: Value) {
         if(views == null) {

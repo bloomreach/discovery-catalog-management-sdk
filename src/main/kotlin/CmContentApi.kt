@@ -49,7 +49,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPut(jsonBody: String): CatalogManagementResponse? {
-        logger.debug("ingestPut() with string")
         return cmHttpClient.invokeIngest(brApiRequestData, jsonBody, HttpMethod.PUT, CmApiType.CONTENT)
     }
 
@@ -60,7 +59,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPut(contentRequest: CatalogManagementContentRequest): CatalogManagementResponse? {
-        logger.debug("ingestPut() with object")
         return cmHttpClient.invokeIngest(brApiRequestData, contentRequest, HttpMethod.PUT, CmApiType.CONTENT)
     }
 
@@ -71,7 +69,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPut(pathToFiles: ArrayList<String>): CatalogManagementResponse? {
-        logger.debug("ingestPut() with path")
         return cmHttpClient.invokeIngest(brApiRequestData, pathToFiles, HttpMethod.PUT, CmApiType.CONTENT)
     }
 
@@ -82,7 +79,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPatch(pathToFiles: ArrayList<String>): CatalogManagementResponse? {
-        logger.debug("ingestPatch() with path")
         return cmHttpClient.invokeIngest(brApiRequestData, pathToFiles, HttpMethod.PATCH, CmApiType.CONTENT)
     }
 
@@ -93,7 +89,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPatch(jsonBody: String): CatalogManagementResponse? {
-        logger.debug("ingestPatch() with string")
         return cmHttpClient.invokeIngest(brApiRequestData, jsonBody, HttpMethod.PATCH, CmApiType.CONTENT)
     }
 
@@ -104,7 +99,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun ingestPatch(contentRequest: CatalogManagementContentRequest): CatalogManagementResponse? {
-        logger.debug("ingestPatch() with object")
         return cmHttpClient.invokeIngest(brApiRequestData, contentRequest, HttpMethod.PATCH, CmApiType.CONTENT)
     }
 
@@ -115,7 +109,6 @@ class CmContentApi private constructor(
      * @return  CatalogManagementResponse response object
      */
     public fun index(): CatalogManagementResponse? {
-        logger.debug("index()")
         return cmHttpClient.invokeIndex(brApiRequestData, CmApiType.CONTENT)
     }
 }
